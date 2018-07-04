@@ -106,9 +106,10 @@ deck.click(function(card){
 //the same suit or rank as the top card of the discard pile
 //then it's added to it
 lowerhand.click(function(card){
-console.log("98 lowerhand.click player1_turn="+$player1_turn +" ,stage1 "+$stage1);
+console.log("109 lowerhand.click player1_turn="+$player1_turn +" ,stage1 "+$stage1);
+	//STAGE 1+++++++++++++++++++
 	if($player1_turn && $stage1){
-		console.log("100 lowerhand.click");
+		console.log("112 lowerhand.click");
 		var slot_filled=false;
 		for(i=1;i<4;i++){
 			if(pl1_slot[i].isDeckEmpty()  && !slot_filled) {
@@ -127,11 +128,12 @@ console.log("98 lowerhand.click player1_turn="+$player1_turn +" ,stage1 "+$stage
 		
 	}
 	if (((!pl1_slot[1].isDeckEmpty() && !pl1_slot[2].isDeckEmpty() && !pl1_slot[3].isDeckEmpty())) && $player2_completed_move==false && $stage1)	 {
-		console.log("119 lowerhand.click");
+		console.log("131 lowerhand.click");
 		$player1_turn=false;
 		$player1_completed_move=true;
 		enemy_turn();
 	} ;//else stage1_init_round();
+
 
 
 /*
@@ -195,17 +197,22 @@ function init_slots_click_events(){
 function createCallback( i , att_player){
   return function(card){
   	var scored=false;
-	//console.log("PL_slot("+i+"] CLICKED card="+card+"  -suit="+card.suit+" aaa pl2="+pl2_slot[i].topCard().suit+"  att_player="+att_player);
-	//console.log("pl1slot-COMPARE="+compare_cards(card,pl2_slot[i].topCard()));
-	if(att_player==1)scored=compare_cards(card,pl2_slot[i].topCard());
-	if(att_player==2)scored=compare_cards(card,pl1_slot[i].topCard());
-	//console.log("createCallback BEF  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
-	discardPile.addCard(pl1_slot[i].topCard());
-	discardPile.render();
-	discardPile.addCard(pl2_slot[i].topCard());
-	discardPile.render();
-	//console.log("createCallback AFTER  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
-	console.log("createCallback   att_player="+att_player+" score="+scored);
+  	if ($stage3){
+		//console.log("PL_slot("+i+"] CLICKED card="+card+"  -suit="+card.suit+" aaa pl2="+pl2_slot[i].topCard().suit+"  att_player="+att_player);
+		//console.log("pl1slot-COMPARE="+compare_cards(card,pl2_slot[i].topCard()));
+		if(att_player==1)scored=compare_cards(card,pl2_slot[i].topCard());
+		if(att_player==2)scored=compare_cards(card,pl1_slot[i].topCard());
+		//console.log("createCallback BEF  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
+		discardPile.addCard(pl1_slot[i].topCard());
+		discardPile.render();
+		discardPile.addCard(pl2_slot[i].topCard());
+		discardPile.render();
+		if(scored) $player_score[att_player]++;
+		//console.log("createCallback AFTER  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
+		console.log("createCallback   att_player="+att_player+" score="+scored);
+		stage1_init_round();
+	}
+
 	return scored;
   }
 }
@@ -255,7 +262,7 @@ function enemy_turn(){
 
 //here we roll the dice
 function stage2_rolling(){
-	console.log("stage2_rolling()");
+	console.log("====STAGE 2_rolling()");
 	$stage1=false;
 	$stage2=true;
 	$player1_turn=true;	
@@ -266,15 +273,30 @@ function stage2_rolling(){
 
 //here we check if we have scored
 function stage3_check_result(){
+	console.log("====STAGE 3");
 	$('#dice').hide();
-
+	$stage1=false;
+	$stage2=false;	
+	$stage3=true;	
 }
 
 //here we start a new round
 function stage1_init_round(){
+	console.log("====STAGE 1");
+	$stage1=true;
+	$stage2=false;	
+	$stage3=false;	
 	$player1_turn=true;
 	$player1_completed_move=false;
-	$('#dice').hide();
+	$player2_completed_move=false;
+	if (((  pl1_slot[1].isDeckEmpty() || pl1_slot[2].isDeckEmpty() || pl1_slot[3].isDeckEmpty())) 
+		&& (pl2_slot[1].isDeckEmpty() || pl2_slot[2].isDeckEmpty() || pl2_slot[3].isDeckEmpty()))
+		 {
+		 	$('#dice').hide(); 
+		 } else {
+		 	stage2_rolling();
+		 }
+	
 
 }
 
