@@ -261,6 +261,11 @@ var cards = (function() {
 		toString : function() {
 			return 'Deck';
 		},
+
+		topCardFromThisDeck : function() {
+			return 'd';
+			return this[this.length-1];
+		},		
 		
 		deal : function(count, hands, speed, callback) {
 			var me = this;

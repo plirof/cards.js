@@ -59,6 +59,8 @@ pl2_slot[3] = new cards.Deck({faceUp:true});
 pl2_slot[3].y+=pl2_y;
 pl2_slot[3].x+=160;
 
+init_slots_click_events();
+
 //Let's deal when the Deal button is pressed:
 $('#deal').click(function() {
 	//Deck has a built in method to deal to hands.
@@ -68,7 +70,7 @@ $('#deal').click(function() {
 		//is done.
 		discardPile.addCard(deck.topCard());
 		discardPile.render();
-		pl1_slot1.render();
+		pl1_slot[1].render();
 	});
 });
 
@@ -91,8 +93,8 @@ lowerhand.click(function(card){
 	
 	if($player1_turn){
 		if($clicked_cards==1) {
-			pl1_slot1.addCard(card);
-			pl1_slot1.render();
+			pl1_slot[1].addCard(card);
+			pl1_slot[1].render();
 			lowerhand.addCard(deck.topCard());
 			lowerhand.render();
 			$clicked_cards++;
@@ -151,8 +153,25 @@ upperhand.click(function(card){
 
 });
 
+*/
+
+function init_slots_click_events(){
+	console.log("init_slots_click_events");
+
+	for(var i=1;i<=3;i++) {
+	    pl1_slot[i].click(function(card){
+	        console.log("pl1_slot("+i+"] CLICKED card="+card+"  -suit="+card.suit+" aaa pl2="+pl2_slot[i].topCard().suit);
+	        console.log("pl1slot-COMPARE="+compare_cards(card,pl2_slot[i]));
+
+	    });
+	    // Following is considered cheating :)
+	    pl2_slot[i].click(function(card){
+	        console.log("pl2_slot("+i+"] CLICKED card="+card+"  -suit="+card.suit);
+	    });	    
+	}
+}
 /*
-pl1_slot1.click(function(card){
+pl1_slot[1].click(function(card){
 	console.log("slot clicke - "+card);
 	//alert("hello");
 });
@@ -173,6 +192,7 @@ function enemy_turn(){
 		//if($clicked_cards_pl2==1) {
 			pl2_slot[1].addCard(upperhand.getCardById(rollDiceLocal(6)));
 			pl2_slot[1].render();
+			//console.log("TOP CARD pl2sl1=".pl2_slot[1].topCardFromThisDeck());
 			upperhand.addCard(deck.topCard());
 			upperhand.render();
 			$clicked_cards_pl2++;
@@ -217,7 +237,13 @@ function stage1_init_round(){
 
 }
 
-	function rollDiceLocal($size){ // 1 - $size dice
-	    var randomDice = Math.floor($size*Math.random())+1;  
-	    return randomDice;
-	}
+function rollDiceLocal($size){ // 1 - $size dice
+	var randomDice = Math.floor($size*Math.random())+1;  
+	return randomDice;
+}
+
+function compare_cards($card_att,$card_def=null){ // 1 - $size dice
+	var goal=false;
+	if ($card_att.suit==$card_def) goal=true;
+	return goal;
+}
