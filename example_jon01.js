@@ -2,6 +2,7 @@
 $clicked_cards=1;
 $clicked_cards_pl2=1;
 $player1_turn=true;
+$player1_completed_move=false;
 $player2_completed_move=false;
 $cards_in_hand=6;
 
@@ -94,8 +95,9 @@ deck.click(function(card){
 //the same suit or rank as the top card of the discard pile
 //then it's added to it
 lowerhand.click(function(card){
-
-	if($player1_turn){
+console.log("98 lowerhand.click");
+	if($player1_turn && $stage1){
+		console.log("100 lowerhand.click");
 		var slot_filled=false;
 		for(i=1;i<4;i++){
 			if(pl1_slot[i].isDeckEmpty()  && !slot_filled) {
@@ -112,35 +114,12 @@ lowerhand.click(function(card){
 			}
 		}// end of for(i=1;i<4;i++){
 		
-		/*
-		if($clicked_cards==1) {
-			if(null==(pl1_slot[1].topCard())) console.log("lowerhand.click - pl1_slot[1] is NULL EMPTY before adding");
-			pl1_slot[1].addCard(card);
-			pl1_slot[1].render();
-			lowerhand.addCard(deck.topCard());
-			lowerhand.render();
-			$clicked_cards++;
-		}else
-		if($clicked_cards==2) {
-			pl1_slot[2].addCard(card);
-			pl1_slot[2].render();
-			lowerhand.addCard(deck.topCard());
-			lowerhand.render();		
-			$clicked_cards++;
-		}else	
-		if($clicked_cards==3) {
-			pl1_slot[3].addCard(card);
-			pl1_slot[3].render();
-			lowerhand.addCard(deck.topCard());
-			lowerhand.render();		
-			$clicked_cards=1;
-		}else {$clicked_cards=1;$player1_turn=false;}	
-		*/
 	}
-	if ($clicked_cards==1 && $player2_completed_move==false)	 {
+	if (((!pl1_slot[1].isDeckEmpty() && !pl1_slot[2].isDeckEmpty() && !pl1_slot[3].isDeckEmpty())) && $player2_completed_move==false && $stage1)	 {
+		console.log("119 lowerhand.click");
 		$player1_turn=false;
 		enemy_turn();
-	} else stage1_init_round();
+	} ;//else stage1_init_round();
 
 
 /*
@@ -208,12 +187,12 @@ function createCallback( i , att_player){
 	//console.log("pl1slot-COMPARE="+compare_cards(card,pl2_slot[i].topCard()));
 	if(att_player==1)scored=compare_cards(card,pl2_slot[i].topCard());
 	if(att_player==2)scored=compare_cards(card,pl1_slot[i].topCard());
-	console.log("createCallback BEF  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
+	//console.log("createCallback BEF  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
 	discardPile.addCard(pl1_slot[i].topCard());
 	discardPile.render();
 	discardPile.addCard(pl2_slot[i].topCard());
 	discardPile.render();
-	console.log("createCallback AFTER  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
+	//console.log("createCallback AFTER  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
 	console.log("createCallback   att_player="+att_player+" score="+scored);
 	return scored;
   }
@@ -250,7 +229,7 @@ function enemy_turn(){
 			$clicked_cards_pl2=1;
 
 		//}else {$clicked_cards_pl2=1;}	
-
+		$player1_turn=true;
 		$player2_completed_move==true;
 		//alert ("ENEMY TURN");
 	}
@@ -270,7 +249,7 @@ function stage3_check_result(){
 
 //here we start a new round
 function stage1_init_round(){
-
+	$player1_turn=true;
 
 }
 
