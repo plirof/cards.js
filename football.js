@@ -360,8 +360,8 @@ function compare_cards($card_att,$card_def=null){ // 1 - $size dice
 	console.log("compare_cards ATT_suit="+$card_att.suit+" DEF_suit="+$card_def.suit)
 	if ($card_att.suit==$card_def.suit) goal=true;
 	// extra rules :
-	if($card_def.rank==11 /*Q= BAD player*/) 	goal=true;
-	if($card_att.rank==12 /*J= star attacker*/) goal=true;
-	if($card_def.rank==13 /*K= goalkeeper*/) 	goal=false;
+	if($card_def.rank==12 /*Q= BAD player*/) 	{goal=true; console.log("Looser player!!! ");}
+	if($card_att.rank==11 /*J= star attacker*/) {goal=true;console.log("Star playerr!!! ");}
+	if($card_def.rank==13 /*K= goalkeeper*/) 	{goal=false;console.log("Goalkeeper!!! ");}
 	return goal;
 }
