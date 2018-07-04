@@ -5,6 +5,9 @@ $player1_turn=true;
 $player2_completed_move=false;
 $cards_in_hand=6;
 
+$stage1=true;
+$stage2=false;
+$stage3=false;
 
 //Tell the library which element to use for the table
 cards.init({table:'#card-table'});
@@ -104,6 +107,7 @@ lowerhand.click(function(card){
 		}else {$clicked_cards=1;$player1_turn=false;}	
 	}
 	if ($clicked_cards==1 && $player2_completed_move==false)	 {
+		$player1_turn=false;
 		enemy_turn();
 	} else stage1_init_round();
 
@@ -119,7 +123,7 @@ lowerhand.click(function(card){
 	*/
 });
 
-
+/*
 upperhand.click(function(card){
 	
 	if($clicked_cards_pl2==1) {
@@ -139,53 +143,47 @@ upperhand.click(function(card){
 	}else {$clicked_cards_pl2=1;}
 
 
-/*
-	if (card.suit == discardPile.topCard().suit 
-		|| card.rank == discardPile.topCard().rank) {
-
-		discardPile.addCard(card);
-		discardPile.render();
-		lowerhand.render();
-	}
-	*/
 });
 
+/*
 pl1_slot1.click(function(card){
 	console.log("slot clicke - "+card);
 	//alert("hello");
 });
-
+*/
 
 //So, that should give you some idea about how to render a card game.
 //Now you just need to write some logic around who can play when etc...
 //Good luck :)
 
-function enemy_turn(card){
+function enemy_turn(){
 	console.log("ENEMY TURN");
 	if(!$player1_turn){
-		console.log("ENEMY TURN");
+		console.log("ENEMY TURN , hand ="+upperhand.calcPosition(2));
 
-		if($clicked_cards==1) {
-			pl2_slot1.addCard(card);
+
+
+		if($clicked_cards_pl2==1) {
+			//pl2_slot1.addCard(card);
 			pl2_slot1.render();
 			upperhand.addCard(deck.topCard());
 			upperhand.render();
-			$clicked_cards++;
+			$clicked_cards_pl2++;
 		}else
-		if($clicked_cards==2) {
-			pl2_slot2.addCard(card);
+		if($clicked_cards_pl2==2) {
+			//pl2_slot2.addCard(card);
 			pl2_slot2.render();
 			upperhand.addCard(deck.topCard());
 			upperhand.render();		
-			$clicked_cards++;
+			$clicked_cards_pl2++;
 		}else	
-		if($clicked_cards==3) {
-			pl2_slot3.addCard(card);
+		if($clicked_cards_pl2==3) {
+			//pl2_slot3.addCard(card);
 			pl2_slot3.render();
 			upperhand.addCard(deck.topCard());
 			upperhand.render();		
-			$clicked_cards=1;
-		}else {$clicked_cards=1;}	
+			$clicked_cards_pl2=1;
+		}else {$clicked_cards_pl2=1;}	
 
 		$player2_completed_move==true;
 		//alert ("ENEMY TURN");
@@ -208,4 +206,9 @@ function stage3_check_result(){
 function stage1_init_round(){
 
 
+}
+
+function rollDice($size){ // 1 - $size dice
+    var randomDice = Math.floor($size*Math.random())+1;  
+    return randomDice;
 }
