@@ -329,6 +329,12 @@ function stage2_pl2_roll_attack(){
 //here we start a new round
 function stage1_init_round(){
 	console.log("====STAGE 1");
+	if (deck.isDeckEmpty()){
+		alert ("END OF MATCH score : player1 Vs Player2 :"+$player_score[1]+"-"+$player_score[2]);
+		console.log("END OF MATCH score : player1 Vs Player2 :"+$player_score[1]+"-"+$player_score[2]);
+		location.reload();
+
+	}
 	$stage1=true;
 	$stage2=false;	
 	$stage3=false;	
