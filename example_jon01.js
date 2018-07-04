@@ -2,6 +2,7 @@
 $clicked_cards=1;
 $clicked_cards_pl2=1;
 $player1_turn=true;
+$player1_attack=true; //if false pl2 attacks Stage2
 $player1_completed_move=false;
 $player2_completed_move=false;
 $cards_in_hand=6;
@@ -85,10 +86,10 @@ $('#dice').click(function() {
 	//Deck has a built in method to deal to hands.
 	$('#dice').hide();
 	$dice_last_value=rollDiceLocal(3);
-	console.log("dice_last_value="+$dice_last_value);
+	//console.log("dice_last_value="+$dice_last_value);
 	$stage2=false;
 	if($dice_last_value==3){$stage3=true; console.log("dice rolled == ATTACK (3)");} // ATTACK enabled now select card
-	if($dice_last_value<3) {$stage1=true; console.log("dice rolled == 1,2 - Lost turn"); stage1_init_round() ;}
+	if($dice_last_value<3) {$stage1=true; console.log("dice rolled == 1,2 - Lost turn"); $player1_attack=false;stage1_init_round() ;}
 });
 
 //When you click on the top card of a deck, a card is added
@@ -106,10 +107,10 @@ deck.click(function(card){
 //the same suit or rank as the top card of the discard pile
 //then it's added to it
 lowerhand.click(function(card){
-console.log("109 lowerhand.click player1_turn="+$player1_turn +" ,stage1 "+$stage1);
+//console.log("109 lowerhand.click player1_turn="+$player1_turn +" ,stage1 "+$stage1);
 	//STAGE 1+++++++++++++++++++
 	if($player1_turn && $stage1){
-		console.log("112 lowerhand.click");
+		//console.log("112 lowerhand.click");
 		var slot_filled=false;
 		for(i=1;i<4;i++){
 			if(pl1_slot[i].isDeckEmpty()  && !slot_filled) {
@@ -128,7 +129,7 @@ console.log("109 lowerhand.click player1_turn="+$player1_turn +" ,stage1 "+$stag
 		
 	}
 	if (((!pl1_slot[1].isDeckEmpty() && !pl1_slot[2].isDeckEmpty() && !pl1_slot[3].isDeckEmpty())) && $player2_completed_move==false && $stage1)	 {
-		console.log("131 lowerhand.click");
+		//console.log("131 lowerhand.click");
 		$player1_turn=false;
 		$player1_completed_move=true;
 		enemy_turn();
@@ -213,6 +214,7 @@ function createCallback( i , att_player){
 		}
 		//console.log("createCallback AFTER  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
 		console.log("createCallback   att_player="+att_player+" score="+scored);
+		$player1_attack=false;
 		stage1_init_round();
 	}
 
@@ -232,9 +234,9 @@ pl1_slot[1].click(function(card){
 //Good luck :)
 
 function enemy_turn(){
-	console.log("225 ENEMY TURN");
+	//console.log("225 ENEMY TURN");
 	if(!$player1_turn){
-		console.log("227 ENEMY TURN");
+		//console.log("227 ENEMY TURN");
 		//console.log("ENEMY TURN , card from hand ("+current_dice+")="+upperhand.getCardById(current_dice)+", ALLHAND="+upperhand.getAllCardsInHand());
 
 		for (i=1;i<4;i++){
@@ -254,9 +256,9 @@ function enemy_turn(){
 		
 		$player2_completed_move=true;
 		$player1_turn=true;
-		console.log("247 player12_completed_move"+$player1_completed_move+$player2_completed_move);
+		//console.log("247 player12_completed_move"+$player1_completed_move+$player2_completed_move);
 		if ($player1_completed_move && $player2_completed_move)
-		{console.log("stage2_rolling()");
+		{//console.log("stage2_rolling()");
 			stage2_rolling();
 		}
 		//alert ("ENEMY TURN");
@@ -269,8 +271,9 @@ function stage2_rolling(){
 	$stage1=false;
 	$stage2=true;
 	$player1_turn=true;	
+	if ($player1_attack) {$('#dice').show();
+	} else { stage2_pl2_roll_attack();}
 
-	$('#dice').show();
 
 }
 
@@ -281,6 +284,46 @@ function stage3_check_result(){
 	$stage1=false;
 	$stage2=false;	
 	$stage3=true;	
+}
+
+//here we check if we have scored
+function stage2_pl2_roll_attack(){
+	console.log("====STAGE 2 & 3 -player2 rolls & attacks");
+	$player1_attack=true;
+	$dice_last_value=rollDiceLocal(3);
+	//console.log("dice_last_value="+$dice_last_value);
+	if($dice_last_value==3){
+		$stage3=true; 
+		console.log("PL2 dice rolled == ATTACK (3)");
+		//console.log("PL_slot("+i+"] CLICKED card="+card+"  -suit="+card.suit+" aaa pl2="+pl2_slot[i].topCard().suit+"  att_player="+att_player);
+		//console.log("pl1slot-COMPARE="+compare_cards(card,pl2_slot[i].topCard()));
+		$random_slot=rollDiceLocal(3);
+		scored=compare_cards(pl2_slot[$random_slot].topCard(),pl1_slot[$random_slot].topCard());
+		//console.log("createCallback BEF  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
+		discardPile.addCard(pl1_slot[$random_slot].topCard());
+		discardPile.render();
+		discardPile.addCard(pl2_slot[$random_slot].topCard());
+		discardPile.render();
+		if(scored) {
+			$player_score[2]++;
+			alert (" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
+			console.log(" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
+		}
+		//console.log("createCallback AFTER  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
+		//console.log("createCallback   att_player="+att_player+" score="+scored);
+		
+		stage1_init_round();
+	
+
+	} // ATTACK enabled now select card
+	if($dice_last_value<3) {
+		$stage1=true; console.log("PL2 dice rolled == 1,2 - Lost turn"); 
+		stage1_init_round() ;}
+
+	//$('#dice').hide();
+	$stage1=true;
+	$stage2=false;	
+	$stage3=false;	
 }
 
 //here we start a new round
@@ -299,8 +342,6 @@ function stage1_init_round(){
 		 } else {
 		 	stage2_rolling();
 		 }
-	
-
 }
 
 function rollDiceLocal($size){ // 1 - $size dice
