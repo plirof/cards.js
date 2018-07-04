@@ -1,5 +1,10 @@
 
 $clicked_cards=1;
+$clicked_cards_pl2=1;
+$player1_turn=true;
+$player2_completed_move=false;
+$cards_in_hand=6;
+
 
 //Tell the library which element to use for the table
 cards.init({table:'#card-table'});
@@ -16,9 +21,10 @@ deck.render({immediate:true});
 
 //Now lets create a couple of hands, one face down, one face up.
 upperhand = new cards.Hand({faceUp:true, y:60});
+upperhand.x-=300;
 lowerhand = new cards.Hand({faceUp:true, y:340});
 lowerhand.x-=300;
-upperhand.x-=300;
+
 
 //Lets add a discard pile
 discardPile = new cards.Deck({faceUp:true});
@@ -36,10 +42,10 @@ pl1_slot3.x+=160;
 
 pl2_slot1 = new cards.Deck({faceUp:true});
 pl2_slot1.y+=40;
-pl2_slot1.x+=0;
+pl2_slot1.x+=160;
 pl2_slot2 = new cards.Deck({faceUp:true});
 pl2_slot2.y+=40;
-pl2_slot2.x+=80;
+pl2_slot2.x+=160;
 pl2_slot3 = new cards.Deck({faceUp:true});
 pl2_slot3.y+=40;
 pl2_slot3.x+=160;
@@ -48,7 +54,7 @@ pl2_slot3.x+=160;
 $('#deal').click(function() {
 	//Deck has a built in method to deal to hands.
 	$('#deal').hide();
-	deck.deal(6, [upperhand, lowerhand], 50, function() {
+	deck.deal($cards_in_hand, [upperhand, lowerhand], 50, function() {
 		//This is a callback function, called when the dealing
 		//is done.
 		discardPile.addCard(deck.topCard());
@@ -60,39 +66,48 @@ $('#deal').click(function() {
 
 //When you click on the top card of a deck, a card is added
 //to your hand
+/*
 deck.click(function(card){
 	if (card === deck.topCard()) {
 		lowerhand.addCard(deck.topCard());
 		lowerhand.render();
 	}
 });
+*/
 
 //Finally, when you click a card in your hand, if it's
 //the same suit or rank as the top card of the discard pile
 //then it's added to it
 lowerhand.click(function(card){
 	
-	if($clicked_cards==1) {
-		pl1_slot1.addCard(card);
-		pl1_slot1.render();
-		lowerhand.addCard(deck.topCard());
-		lowerhand.render();
-		$clicked_cards++;
-	}else
-	if($clicked_cards==2) {
-		pl1_slot2.addCard(card);
-		pl1_slot2.render();
-		lowerhand.addCard(deck.topCard());
-		lowerhand.render();		
-		$clicked_cards++;
-	}else	
-	if($clicked_cards==3) {
-		pl1_slot3.addCard(card);
-		pl1_slot3.render();
-		lowerhand.addCard(deck.topCard());
-		lowerhand.render();		
-		$clicked_cards=1;
-	}else {$clicked_cards=1;}	
+	if($player1_turn){
+		if($clicked_cards==1) {
+			pl1_slot1.addCard(card);
+			pl1_slot1.render();
+			lowerhand.addCard(deck.topCard());
+			lowerhand.render();
+			$clicked_cards++;
+		}else
+		if($clicked_cards==2) {
+			pl1_slot2.addCard(card);
+			pl1_slot2.render();
+			lowerhand.addCard(deck.topCard());
+			lowerhand.render();		
+			$clicked_cards++;
+		}else	
+		if($clicked_cards==3) {
+			pl1_slot3.addCard(card);
+			pl1_slot3.render();
+			lowerhand.addCard(deck.topCard());
+			lowerhand.render();		
+			$clicked_cards=1;
+		}else {$clicked_cards=1;$player1_turn=false;}	
+	}
+	if ($clicked_cards==1 && $player2_completed_move==false)	 {
+		enemy_turn();
+	} else stage1_init_round();
+
+
 /*
 	if (card.suit == discardPile.topCard().suit 
 		|| card.rank == discardPile.topCard().rank) {
@@ -108,20 +123,22 @@ lowerhand.click(function(card){
 upperhand.click(function(card){
 	
 	if($clicked_cards_pl2==1) {
-		pl1_slot1.addCard(card);
-		pl1_slot1.render();
+		pl2_slot1.addCard(card);
+		pl2_slot1.render();
 		$clicked_cards_pl2++;
 	}else
 	if($clicked_cards_pl2==2) {
-		pl1_slot2.addCard(card);
-		pl1_slot2.render();
+		pl2_slot2.addCard(card);
+		pl2_slot2.render();
 		$clicked_cards_pl2++;
 	}else	
 	if($clicked_cards_pl2==3) {
-		pl1_slot3.addCard(card);
-		pl1_slot3.render();
+		pl2_slot3.addCard(card);
+		pl2_slot3.render();
 		$clicked_cards_pl2=1;
-	}else {$clicked_cards_pl2=1;}	
+	}else {$clicked_cards_pl2=1;}
+
+
 /*
 	if (card.suit == discardPile.topCard().suit 
 		|| card.rank == discardPile.topCard().rank) {
@@ -142,3 +159,53 @@ pl1_slot1.click(function(card){
 //So, that should give you some idea about how to render a card game.
 //Now you just need to write some logic around who can play when etc...
 //Good luck :)
+
+function enemy_turn(card){
+	console.log("ENEMY TURN");
+	if(!$player1_turn){
+		console.log("ENEMY TURN");
+
+		if($clicked_cards==1) {
+			pl2_slot1.addCard(card);
+			pl2_slot1.render();
+			upperhand.addCard(deck.topCard());
+			upperhand.render();
+			$clicked_cards++;
+		}else
+		if($clicked_cards==2) {
+			pl2_slot2.addCard(card);
+			pl2_slot2.render();
+			upperhand.addCard(deck.topCard());
+			upperhand.render();		
+			$clicked_cards++;
+		}else	
+		if($clicked_cards==3) {
+			pl2_slot3.addCard(card);
+			pl2_slot3.render();
+			upperhand.addCard(deck.topCard());
+			upperhand.render();		
+			$clicked_cards=1;
+		}else {$clicked_cards=1;}	
+
+		$player2_completed_move==true;
+		//alert ("ENEMY TURN");
+	}
+}
+
+//here we roll the dice
+function stage2_rolling(){
+
+
+}
+
+//here we check if we have scored
+function stage3_check_result(){
+
+
+}
+
+//here we start a new round
+function stage1_init_round(){
+
+
+}
