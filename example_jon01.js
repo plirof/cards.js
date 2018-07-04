@@ -98,7 +98,8 @@ lowerhand.click(function(card){
 	if($player1_turn){
 		var slot_filled=false;
 		for(i=1;i<4;i++){
-			if(null==(pl1_slot[i].topCard()) && !slot_filled){
+			if(pl1_slot[i].isDeckEmpty()  && !slot_filled) {
+			//if(null==(pl1_slot[i].topCard()) && !slot_filled){
 				pl1_slot[i].addCard(card);
 				pl1_slot[i].render();
 				lowerhand.addCard(deck.topCard());
@@ -207,6 +208,12 @@ function createCallback( i , att_player){
 	//console.log("pl1slot-COMPARE="+compare_cards(card,pl2_slot[i].topCard()));
 	if(att_player==1)scored=compare_cards(card,pl2_slot[i].topCard());
 	if(att_player==2)scored=compare_cards(card,pl1_slot[i].topCard());
+	console.log("createCallback BEF  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
+	discardPile.addCard(pl1_slot[i].topCard());
+	discardPile.render();
+	discardPile.addCard(pl2_slot[i].topCard());
+	discardPile.render();
+	console.log("createCallback AFTER  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
 	console.log("createCallback   att_player="+att_player+" score="+scored);
 	return scored;
   }
@@ -230,7 +237,7 @@ function enemy_turn(){
 		console.log("ENEMY TURN , card from hand ("+current_dice+")="+upperhand.getCardById(current_dice)+", ALLHAND="+upperhand.getAllCardsInHand());
 
 		for (i=1;i<4;i++){
-			if(null==(pl2_slot[i].topCard())) {
+			if(pl2_slot[i].isDeckEmpty()) {
 				pl2_slot[i].addCard(upperhand.getCardById(rollDiceLocal(6)));
 				pl2_slot[i].render();
 				//console.log("TOP CARD pl2sl1=".pl2_slot[1].topCardFromThisDeck());

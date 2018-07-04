@@ -229,12 +229,22 @@ var cards = (function() {
 		},
 		
 		topCard : function() {
+			//if (this.length==0) console.log("topCard = 0");
 			return this[this.length-1];
 		},
 		
 		toString: function() {
 			return 'Container';
+		},
+
+		isDeckEmpty : function() {
+			//return "hello";
+			if(null==this[this.length-1]) return true;
+			return false;
+			//return this[this.length-1];
 		}
+
+
 	});
 	
 	function Deck(options) {
@@ -261,12 +271,8 @@ var cards = (function() {
 		toString : function() {
 			return 'Deck';
 		},
-/*
-		topCardFromThisDeck : function() {
-			return 'd';
-			return this[this.length-1];
-		},		
-*/		
+
+		
 		deal : function(count, hands, speed, callback) {
 			var me = this;
 			var i = 0;
