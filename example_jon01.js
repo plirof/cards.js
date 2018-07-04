@@ -5,6 +5,10 @@ $player1_turn=true;
 $player2_completed_move=false;
 $cards_in_hand=6;
 
+var $player_score=new Array(3);
+$player_score[1]=0;
+$player_score[2]=0;
+
 $stage1=true;
 $stage2=false; 
 $stage3=false; //roll dice to check if attack & we click and compare
@@ -159,17 +163,37 @@ function init_slots_click_events(){
 	console.log("init_slots_click_events");
 
 	for(var i=1;i<=3;i++) {
+		
+		pl1_slot[i].click(createCallback( i ,1 ));
+		/*
 	    pl1_slot[i].click(function(card){
 	        console.log("pl1_slot("+i+"] CLICKED card="+card+"  -suit="+card.suit+" aaa pl2="+pl2_slot[i].topCard().suit);
 	        console.log("pl1slot-COMPARE="+compare_cards(card,pl2_slot[i]));
-
 	    });
+	    */
 	    // Following is considered cheating :)
+	    pl2_slot[i].click(createCallback( i ,2 ));
+	    /*
 	    pl2_slot[i].click(function(card){
 	        console.log("pl2_slot("+i+"] CLICKED card="+card+"  -suit="+card.suit);
 	    });	    
+	    */
 	}
 }
+
+//click handler
+function createCallback( i , att_player){
+  return function(card){
+  	var scored=false;
+	//console.log("PL_slot("+i+"] CLICKED card="+card+"  -suit="+card.suit+" aaa pl2="+pl2_slot[i].topCard().suit+"  att_player="+att_player);
+	//console.log("pl1slot-COMPARE="+compare_cards(card,pl2_slot[i].topCard()));
+	if(att_player==1)scored=compare_cards(card,pl2_slot[i].topCard());
+	if(att_player==2)scored=compare_cards(card,pl1_slot[i].topCard());
+	console.log("createCallback   att_player="+att_player+" score="+scored);
+	return scored;
+  }
+}
+
 /*
 pl1_slot[1].click(function(card){
 	console.log("slot clicke - "+card);
@@ -244,6 +268,7 @@ function rollDiceLocal($size){ // 1 - $size dice
 
 function compare_cards($card_att,$card_def=null){ // 1 - $size dice
 	var goal=false;
-	if ($card_att.suit==$card_def) goal=true;
+	console.log("compare_cards ATT_suit="+$card_att.suit+" DEF_suit="+$card_def.suit)
+	if ($card_att.suit==$card_def.suit) goal=true;
 	return goal;
 }
