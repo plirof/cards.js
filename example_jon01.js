@@ -6,8 +6,8 @@ $player2_completed_move=false;
 $cards_in_hand=6;
 
 $stage1=true;
-$stage2=false;
-$stage3=false;
+$stage2=false; 
+$stage3=false; //roll dice to check if attack & we click and compare
 
 //Tell the library which element to use for the table
 cards.init({table:'#card-table'});
@@ -45,14 +45,16 @@ pl1_slot3 = new cards.Deck({faceUp:true});
 pl1_slot3.y+=200;
 pl1_slot3.x+=160;
 
+pl2_y=40;
+
 pl2_slot1 = new cards.Deck({faceUp:true});
-pl2_slot1.y+=40;
-pl2_slot1.x+=160;
-pl2_slot2 = new cards.Deck({faceUp:true});
-pl2_slot2.y+=40;
-pl2_slot2.x+=160;
+pl2_slot1.y+=pl2_y;
+pl2_slot1.x+=0;
+pl2_slot2 = new cards.Deck({faceUp:false});
+pl2_slot2.y+=pl2_y;
+pl2_slot2.x+=80;
 pl2_slot3 = new cards.Deck({faceUp:true});
-pl2_slot3.y+=40;
+pl2_slot3.y+=pl2_y;
 pl2_slot3.x+=160;
 
 //Let's deal when the Deal button is pressed:
@@ -166,27 +168,29 @@ function enemy_turn(){
 
 
 
-		if($clicked_cards_pl2==1) {
-			//pl2_slot1.addCard(card);
+		//if($clicked_cards_pl2==1) {
+			pl2_slot1.addCard(upperhand.getCardById(rollDiceLocal(6)));
 			pl2_slot1.render();
 			upperhand.addCard(deck.topCard());
 			upperhand.render();
 			$clicked_cards_pl2++;
-		}else
-		if($clicked_cards_pl2==2) {
-			//pl2_slot2.addCard(card);
+		//}else
+		//if($clicked_cards_pl2==2) {
+			console.log("ENEMY TURN slot2");
+			pl2_slot2.addCard(upperhand.getCardById(rollDiceLocal(6)));
 			pl2_slot2.render();
 			upperhand.addCard(deck.topCard());
 			upperhand.render();		
 			$clicked_cards_pl2++;
-		}else	
-		if($clicked_cards_pl2==3) {
-			//pl2_slot3.addCard(card);
+		//}else	
+		//if($clicked_cards_pl2==3) {
+			console.log("ENEMY TURN slot3");
+			pl2_slot3.addCard(upperhand.getCardById(rollDiceLocal(6)));
 			pl2_slot3.render();
 			upperhand.addCard(deck.topCard());
 			upperhand.render();		
 			$clicked_cards_pl2=1;
-		}else {$clicked_cards_pl2=1;}	
+		//}else {$clicked_cards_pl2=1;}	
 
 		$player2_completed_move==true;
 		//alert ("ENEMY TURN");
