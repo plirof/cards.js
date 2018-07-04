@@ -5,6 +5,7 @@ $player1_turn=true;
 $player1_completed_move=false;
 $player2_completed_move=false;
 $cards_in_hand=6;
+$dice_last_value=0;
 
 var $player_score=new Array(3);
 $player_score[1]=0;
@@ -16,7 +17,7 @@ $stage3=false; //roll dice to check if attack & we click and compare
 
 //Tell the library which element to use for the table
 cards.init({table:'#card-table'});
-
+$('#dice').hide();
 
 
 //Create a new deck of cards
@@ -79,6 +80,16 @@ $('#deal').click(function() {
 	});
 });
 
+//Let's deal when the Deal button is pressed:
+$('#dice').click(function() {
+	//Deck has a built in method to deal to hands.
+	$('#dice').hide();
+	$dice_last_value=rollDiceLocal(3);
+	console.log("dice_last_value="+$dice_last_value);
+	$stage2=false;
+	if($dice_last_value==3){$stage3=true; console.log("dice rolled == ATTACK (3)");} // ATTACK enabled now select card
+	if($dice_last_value<3) {$stage1=true; console.log("dice rolled == 1,2 - Lost turn"); stage1_init_round() ;}
+});
 
 //When you click on the top card of a deck, a card is added
 //to your hand
@@ -95,7 +106,7 @@ deck.click(function(card){
 //the same suit or rank as the top card of the discard pile
 //then it's added to it
 lowerhand.click(function(card){
-console.log("98 lowerhand.click");
+console.log("98 lowerhand.click player1_turn="+$player1_turn +" ,stage1 "+$stage1);
 	if($player1_turn && $stage1){
 		console.log("100 lowerhand.click");
 		var slot_filled=false;
@@ -118,6 +129,7 @@ console.log("98 lowerhand.click");
 	if (((!pl1_slot[1].isDeckEmpty() && !pl1_slot[2].isDeckEmpty() && !pl1_slot[3].isDeckEmpty())) && $player2_completed_move==false && $stage1)	 {
 		console.log("119 lowerhand.click");
 		$player1_turn=false;
+		$player1_completed_move=true;
 		enemy_turn();
 	} ;//else stage1_init_round();
 
@@ -210,10 +222,10 @@ pl1_slot[1].click(function(card){
 //Good luck :)
 
 function enemy_turn(){
-	console.log("ENEMY TURN");
+	console.log("225 ENEMY TURN");
 	if(!$player1_turn){
-		current_dice=rollDiceLocal(6);
-		console.log("ENEMY TURN , card from hand ("+current_dice+")="+upperhand.getCardById(current_dice)+", ALLHAND="+upperhand.getAllCardsInHand());
+		console.log("227 ENEMY TURN");
+		//console.log("ENEMY TURN , card from hand ("+current_dice+")="+upperhand.getCardById(current_dice)+", ALLHAND="+upperhand.getAllCardsInHand());
 
 		for (i=1;i<4;i++){
 			if(pl2_slot[i].isDeckEmpty()) {
@@ -226,30 +238,42 @@ function enemy_turn(){
 			}
 		}//for (i=1;i<4;i++){
 
-			$clicked_cards_pl2=1;
+		$clicked_cards_pl2=1;
 
 		//}else {$clicked_cards_pl2=1;}	
-		$player1_turn=true;
+		
 		$player2_completed_move==true;
+		$player1_turn=true;
+		if ($player1_completed_move && $player2_completed_move)
+		{console.log("stage2_rolling()");
+			stage2_rolling();
+		}
 		//alert ("ENEMY TURN");
 	}
 }
 
 //here we roll the dice
 function stage2_rolling(){
+	console.log("stage2_rolling()");
+	$stage1=false;
+	$stage2=true;
+	$player1_turn=true;	
 
+	$('#dice').show();
 
 }
 
 //here we check if we have scored
 function stage3_check_result(){
-
+	$('#dice').hide();
 
 }
 
 //here we start a new round
 function stage1_init_round(){
 	$player1_turn=true;
+	$player1_completed_move=false;
+	$('#dice').hide();
 
 }
 
