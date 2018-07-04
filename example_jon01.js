@@ -97,6 +97,7 @@ lowerhand.click(function(card){
 	
 	if($player1_turn){
 		if($clicked_cards==1) {
+			if(null==(pl1_slot[1].topCard())) console.log("lowerhand.click - pl1_slot[1] is NULL EMPTY before adding");
 			pl1_slot[1].addCard(card);
 			pl1_slot[1].render();
 			lowerhand.addCard(deck.topCard());
@@ -211,31 +212,19 @@ function enemy_turn(){
 		current_dice=rollDiceLocal(6);
 		console.log("ENEMY TURN , card from hand ("+current_dice+")="+upperhand.getCardById(current_dice)+", ALLHAND="+upperhand.getAllCardsInHand());
 
+		for (i=1;i<4;i++){
+			if(null==(pl2_slot[i].topCard())) {
+				pl2_slot[i].addCard(upperhand.getCardById(rollDiceLocal(6)));
+				pl2_slot[i].render();
+				//console.log("TOP CARD pl2sl1=".pl2_slot[1].topCardFromThisDeck());
+				upperhand.addCard(deck.topCard());
+				upperhand.render();
+				$clicked_cards_pl2++;
+			}
+		}//for (i=1;i<4;i++){
 
-
-		//if($clicked_cards_pl2==1) {
-			pl2_slot[1].addCard(upperhand.getCardById(rollDiceLocal(6)));
-			pl2_slot[1].render();
-			//console.log("TOP CARD pl2sl1=".pl2_slot[1].topCardFromThisDeck());
-			upperhand.addCard(deck.topCard());
-			upperhand.render();
-			$clicked_cards_pl2++;
-		//}else
-		//if($clicked_cards_pl2==2) {
-			console.log("ENEMY TURN slot2");
-			pl2_slot[2].addCard(upperhand.getCardById(rollDiceLocal(6)));
-			pl2_slot[2].render();
-			upperhand.addCard(deck.topCard());
-			upperhand.render();		
-			$clicked_cards_pl2++;
-		//}else	
-		//if($clicked_cards_pl2==3) {
-			console.log("ENEMY TURN slot3");
-			pl2_slot[3].addCard(upperhand.getCardById(rollDiceLocal(6)));
-			pl2_slot[3].render();
-			upperhand.addCard(deck.topCard());
-			upperhand.render();		
 			$clicked_cards_pl2=1;
+
 		//}else {$clicked_cards_pl2=1;}	
 
 		$player2_completed_move==true;
