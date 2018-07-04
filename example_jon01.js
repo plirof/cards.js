@@ -21,7 +21,7 @@ cards.init({table:'#card-table'});
 //Create a new deck of cards
 deck = new cards.Deck(); 
 //By default it's in the middle of the container, put it slightly to the side
-deck.x -= 50;
+deck.x -= 300;
 
 //cards.all contains all cards, put them all in the deck
 deck.addCards(cards.all); 
@@ -37,22 +37,22 @@ lowerhand.x-=300;
 
 //Lets add a discard pile
 discardPile = new cards.Deck({faceUp:true});
-discardPile.x += 50;
+discardPile.x -= 200;
 
 var pl1_slot=new Array(3);
-
+pl1_y=40;
 pl1_slot[1] = new cards.Deck({faceUp:true});
-pl1_slot[1].y+=200;
+pl1_slot[1].y+=pl1_y;
 pl1_slot[1].x+=0;
 pl1_slot[2] = new cards.Deck({faceUp:true});
-pl1_slot[2].y+=200;
+pl1_slot[2].y+=pl1_y;
 pl1_slot[2].x+=80;
 pl1_slot[3] = new cards.Deck({faceUp:true});
-pl1_slot[3].y+=200;
+pl1_slot[3].y+=pl1_y;
 pl1_slot[3].x+=160;
 
 var pl2_slot=new Array(3);
-pl2_y=40;
+pl2_y=-100;
 pl2_slot[1] = new cards.Deck({faceUp:true});
 pl2_slot[1].y+=pl2_y;
 pl2_slot[1].x+=0;
