@@ -35,27 +35,29 @@ lowerhand.x-=300;
 discardPile = new cards.Deck({faceUp:true});
 discardPile.x += 50;
 
-pl1_slot1 = new cards.Deck({faceUp:true});
-pl1_slot1.y+=200;
-pl1_slot1.x+=0;
-pl1_slot2 = new cards.Deck({faceUp:true});
-pl1_slot2.y+=200;
-pl1_slot2.x+=80;
-pl1_slot3 = new cards.Deck({faceUp:true});
-pl1_slot3.y+=200;
-pl1_slot3.x+=160;
+var pl1_slot=new Array(3);
 
+pl1_slot[1] = new cards.Deck({faceUp:true});
+pl1_slot[1].y+=200;
+pl1_slot[1].x+=0;
+pl1_slot[2] = new cards.Deck({faceUp:true});
+pl1_slot[2].y+=200;
+pl1_slot[2].x+=80;
+pl1_slot[3] = new cards.Deck({faceUp:true});
+pl1_slot[3].y+=200;
+pl1_slot[3].x+=160;
+
+var pl2_slot=new Array(3);
 pl2_y=40;
-
-pl2_slot1 = new cards.Deck({faceUp:true});
-pl2_slot1.y+=pl2_y;
-pl2_slot1.x+=0;
-pl2_slot2 = new cards.Deck({faceUp:false});
-pl2_slot2.y+=pl2_y;
-pl2_slot2.x+=80;
-pl2_slot3 = new cards.Deck({faceUp:true});
-pl2_slot3.y+=pl2_y;
-pl2_slot3.x+=160;
+pl2_slot[1] = new cards.Deck({faceUp:true});
+pl2_slot[1].y+=pl2_y;
+pl2_slot[1].x+=0;
+pl2_slot[2] = new cards.Deck({faceUp:false});
+pl2_slot[2].y+=pl2_y;
+pl2_slot[2].x+=80;
+pl2_slot[3] = new cards.Deck({faceUp:true});
+pl2_slot[3].y+=pl2_y;
+pl2_slot[3].x+=160;
 
 //Let's deal when the Deal button is pressed:
 $('#deal').click(function() {
@@ -96,15 +98,15 @@ lowerhand.click(function(card){
 			$clicked_cards++;
 		}else
 		if($clicked_cards==2) {
-			pl1_slot2.addCard(card);
-			pl1_slot2.render();
+			pl1_slot[2].addCard(card);
+			pl1_slot[2].render();
 			lowerhand.addCard(deck.topCard());
 			lowerhand.render();		
 			$clicked_cards++;
 		}else	
 		if($clicked_cards==3) {
-			pl1_slot3.addCard(card);
-			pl1_slot3.render();
+			pl1_slot[3].addCard(card);
+			pl1_slot[3].render();
 			lowerhand.addCard(deck.topCard());
 			lowerhand.render();		
 			$clicked_cards=1;
@@ -131,18 +133,18 @@ lowerhand.click(function(card){
 upperhand.click(function(card){
 	
 	if($clicked_cards_pl2==1) {
-		pl2_slot1.addCard(card);
-		pl2_slot1.render();
+		pl2_slot[1].addCard(card);
+		pl2_slot[1].render();
 		$clicked_cards_pl2++;
 	}else
 	if($clicked_cards_pl2==2) {
-		pl2_slot2.addCard(card);
-		pl2_slot2.render();
+		pl2_slot[2].addCard(card);
+		pl2_slot[2].render();
 		$clicked_cards_pl2++;
 	}else	
 	if($clicked_cards_pl2==3) {
-		pl2_slot3.addCard(card);
-		pl2_slot3.render();
+		pl2_slot[3].addCard(card);
+		pl2_slot[3].render();
 		$clicked_cards_pl2=1;
 	}else {$clicked_cards_pl2=1;}
 
@@ -169,24 +171,24 @@ function enemy_turn(){
 
 
 		//if($clicked_cards_pl2==1) {
-			pl2_slot1.addCard(upperhand.getCardById(rollDiceLocal(6)));
-			pl2_slot1.render();
+			pl2_slot[1].addCard(upperhand.getCardById(rollDiceLocal(6)));
+			pl2_slot[1].render();
 			upperhand.addCard(deck.topCard());
 			upperhand.render();
 			$clicked_cards_pl2++;
 		//}else
 		//if($clicked_cards_pl2==2) {
 			console.log("ENEMY TURN slot2");
-			pl2_slot2.addCard(upperhand.getCardById(rollDiceLocal(6)));
-			pl2_slot2.render();
+			pl2_slot[2].addCard(upperhand.getCardById(rollDiceLocal(6)));
+			pl2_slot[2].render();
 			upperhand.addCard(deck.topCard());
 			upperhand.render();		
 			$clicked_cards_pl2++;
 		//}else	
 		//if($clicked_cards_pl2==3) {
 			console.log("ENEMY TURN slot3");
-			pl2_slot3.addCard(upperhand.getCardById(rollDiceLocal(6)));
-			pl2_slot3.render();
+			pl2_slot[3].addCard(upperhand.getCardById(rollDiceLocal(6)));
+			pl2_slot[3].render();
 			upperhand.addCard(deck.topCard());
 			upperhand.render();		
 			$clicked_cards_pl2=1;
