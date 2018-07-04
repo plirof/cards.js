@@ -242,8 +242,9 @@ function enemy_turn(){
 
 		//}else {$clicked_cards_pl2=1;}	
 		
-		$player2_completed_move==true;
+		$player2_completed_move=true;
 		$player1_turn=true;
+		console.log("247 player12_completed_move"+$player1_completed_move+$player2_completed_move);
 		if ($player1_completed_move && $player2_completed_move)
 		{console.log("stage2_rolling()");
 			stage2_rolling();
