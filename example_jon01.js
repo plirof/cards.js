@@ -25,13 +25,13 @@ discardPile = new cards.Deck({faceUp:true});
 discardPile.x += 50;
 
 pl1_slot1 = new cards.Deck({faceUp:true});
-pl1_slot1.y+=240;
+pl1_slot1.y+=200;
 pl1_slot1.x+=0;
 pl1_slot2 = new cards.Deck({faceUp:true});
-pl1_slot2.y+=240;
+pl1_slot2.y+=200;
 pl1_slot2.x+=80;
 pl1_slot3 = new cards.Deck({faceUp:true});
-pl1_slot3.y+=240;
+pl1_slot3.y+=200;
 pl1_slot3.x+=160;
 
 pl2_slot1 = new cards.Deck({faceUp:true});
@@ -48,7 +48,7 @@ pl2_slot3.x+=160;
 $('#deal').click(function() {
 	//Deck has a built in method to deal to hands.
 	$('#deal').hide();
-	deck.deal(5, [upperhand, lowerhand], 50, function() {
+	deck.deal(6, [upperhand, lowerhand], 50, function() {
 		//This is a callback function, called when the dealing
 		//is done.
 		discardPile.addCard(deck.topCard());
@@ -75,16 +75,22 @@ lowerhand.click(function(card){
 	if($clicked_cards==1) {
 		pl1_slot1.addCard(card);
 		pl1_slot1.render();
+		lowerhand.addCard(deck.topCard());
+		lowerhand.render();
 		$clicked_cards++;
 	}else
 	if($clicked_cards==2) {
 		pl1_slot2.addCard(card);
 		pl1_slot2.render();
+		lowerhand.addCard(deck.topCard());
+		lowerhand.render();		
 		$clicked_cards++;
 	}else	
 	if($clicked_cards==3) {
 		pl1_slot3.addCard(card);
 		pl1_slot3.render();
+		lowerhand.addCard(deck.topCard());
+		lowerhand.render();		
 		$clicked_cards=1;
 	}else {$clicked_cards=1;}	
 /*
