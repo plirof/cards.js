@@ -12,6 +12,8 @@ $stage3=false;
 //Tell the library which element to use for the table
 cards.init({table:'#card-table'});
 
+
+
 //Create a new deck of cards
 deck = new cards.Deck(); 
 //By default it's in the middle of the container, put it slightly to the side
@@ -159,7 +161,8 @@ pl1_slot1.click(function(card){
 function enemy_turn(){
 	console.log("ENEMY TURN");
 	if(!$player1_turn){
-		console.log("ENEMY TURN , hand ="+upperhand.calcPosition(2));
+		current_dice=rollDiceLocal(6);
+		console.log("ENEMY TURN , card from hand ("+current_dice+")="+upperhand.getCardById(current_dice)+", ALLHAND="+upperhand.getAllCardsInHand());
 
 
 
@@ -208,7 +211,7 @@ function stage1_init_round(){
 
 }
 
-function rollDice($size){ // 1 - $size dice
-    var randomDice = Math.floor($size*Math.random())+1;  
-    return randomDice;
-}
+	function rollDiceLocal($size){ // 1 - $size dice
+	    var randomDice = Math.floor($size*Math.random())+1;  
+	    return randomDice;
+	}

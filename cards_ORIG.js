@@ -140,7 +140,6 @@ var cards = (function() {
 	Container.prototype.extend = function(obj) {
 		for (var prop in obj) {
 			this[prop] = obj[prop];
-			//console.log("Container : prop="+prop+" , objprop=+obj [ p r op]")
 		}
 	}
 	Container.prototype.extend({
@@ -296,27 +295,12 @@ var cards = (function() {
 				this[i].targetLeft = left+i*opt.cardSize.padding;
 			}
 		},
-		getCardById : function($card_id) {
-			if (($card_id-1)>this.length) $card_id=rollDice(6); //if bigger number assume size=6
-			return this[$card_id-1];
-		},
-		getAllCardsInHand : function() {
-			var hand_cards="";
-			for (var i=0;i<this.length;i++) {
-				hand_cards+=" , "+i+"="+this[i];
-			}
-			return hand_cards;
-		},		
+		
 		toString : function() {
 			return 'Hand';
 		}
 	});
 	
-	function rollDice($size){ // 1 - $size dice
-	    var randomDice = Math.floor($size*Math.random())+1;  
-	    return randomDice;
-	}
-
 	function Pile(options) {
 		this.init(options);
 	}
