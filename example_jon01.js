@@ -94,8 +94,24 @@ deck.click(function(card){
 //the same suit or rank as the top card of the discard pile
 //then it's added to it
 lowerhand.click(function(card){
-	
+
 	if($player1_turn){
+		var slot_filled=false;
+		for(i=1;i<4;i++){
+			if(null==(pl1_slot[i].topCard()) && !slot_filled){
+				pl1_slot[i].addCard(card);
+				pl1_slot[i].render();
+				lowerhand.addCard(deck.topCard());
+				lowerhand.render();	
+				$clicked_cards=i+1;
+				if($clicked_cards==4)$clicked_cards=1;
+				slot_filled=true;
+				i=4;
+				break;			
+			}
+		}// end of for(i=1;i<4;i++){
+		
+		/*
 		if($clicked_cards==1) {
 			if(null==(pl1_slot[1].topCard())) console.log("lowerhand.click - pl1_slot[1] is NULL EMPTY before adding");
 			pl1_slot[1].addCard(card);
@@ -118,6 +134,7 @@ lowerhand.click(function(card){
 			lowerhand.render();		
 			$clicked_cards=1;
 		}else {$clicked_cards=1;$player1_turn=false;}	
+		*/
 	}
 	if ($clicked_cards==1 && $player2_completed_move==false)	 {
 		$player1_turn=false;
