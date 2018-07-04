@@ -207,7 +207,10 @@ function createCallback( i , att_player){
 		discardPile.render();
 		discardPile.addCard(pl2_slot[i].topCard());
 		discardPile.render();
-		if(scored) $player_score[att_player]++;
+		if(scored) {
+			$player_score[att_player]++;
+			alert (" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
+		}
 		//console.log("createCallback AFTER  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
 		console.log("createCallback   att_player="+att_player+" score="+scored);
 		stage1_init_round();
