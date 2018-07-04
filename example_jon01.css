@@ -6,7 +6,7 @@ body {
 	position:relative;
 	border-radius:8px; 
 	box-shadow:black 0px 0px 2px; 
-	width: 600px; 
+	/*width: 600px; */
 	background:#FFF; 
 	margin:20px auto; 
 	border:solid 1px black; 
@@ -40,8 +40,11 @@ h1 {
 
 #card-table {
 	background-color:green;
-	height:400px;
+/*	height:400px; 
 	width:600px;
+*/
+	height:100% ;
+	width:100% ;	
 	border:solid 6px brown;
 	border-radius:8px;
 	-webkit-border-radius:8px;

@@ -15,10 +15,18 @@ deck.render({immediate:true});
 //Now lets create a couple of hands, one face down, one face up.
 upperhand = new cards.Hand({faceUp:false, y:60});
 lowerhand = new cards.Hand({faceUp:true, y:340});
+lowerhand.x-=300;
+upperhand.x-=300;
 
 //Lets add a discard pile
 discardPile = new cards.Deck({faceUp:true});
 discardPile.x += 50;
+
+pl1_slot1 = new cards.Deck({faceUp:true});
+pl1_slot1.y+=100;
+pl1_slot1.x+=60;
+pl1_slot2 = new cards.Deck({faceUp:true});
+pl1_slot3 = new cards.Deck({faceUp:true});
 
 
 //Let's deal when the Deal button is pressed:
@@ -30,6 +38,7 @@ $('#deal').click(function() {
 		//is done.
 		discardPile.addCard(deck.topCard());
 		discardPile.render();
+		pl1_slot1.render();
 	});
 });
 
@@ -47,8 +56,11 @@ deck.click(function(card){
 //the same suit or rank as the top card of the discard pile
 //then it's added to it
 lowerhand.click(function(card){
+	pl1_slot1.addCard(card);
+	pl1_slot1.render();
 	if (card.suit == discardPile.topCard().suit 
 		|| card.rank == discardPile.topCard().rank) {
+
 		discardPile.addCard(card);
 		discardPile.render();
 		lowerhand.render();
