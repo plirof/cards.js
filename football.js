@@ -317,6 +317,8 @@ function stage2_pl2_roll_attack(){
 		discardPile.render();
 		if(scored) {
 			$player_score[2]++;
+			Toastify({text: "GOAL!!!! "+$pl2_team + " scored",duration: 3000}).showToast();
+			Toastify({text: "Score is  "+$pl1_team+"-"+$pl2_team + " : "+$player_score[1]+"-"+$player_score[2],duration: 3000}).showToast();
 			alert (" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
 			console.log(" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
 		}
