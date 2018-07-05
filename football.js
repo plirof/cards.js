@@ -92,6 +92,7 @@ $('#dice').click(function() {
 	$dice_last_value=rollDiceLocal(3);
 	//console.log("dice_last_value="+$dice_last_value);
 	$stage2=false;
+	Toastify({text: $pl1_team + " rolled a "+$dice_last_value+". Please Select attacking player!!! ",duration: 3000}).showToast();
 	if($dice_last_value==3){$stage3=true; console.log("dice rolled == ATTACK (3)");} // ATTACK enabled now select card
 	if($dice_last_value<3) {$stage1=true; console.log("dice rolled == 1,2 - Lost turn"); $player1_attack=false;stage1_init_round() ;}
 });
