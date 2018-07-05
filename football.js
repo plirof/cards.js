@@ -5,12 +5,16 @@ $player1_turn=true;
 $player1_attack=true; //if false pl2 attacks Stage2
 $player1_completed_move=false;
 $player2_completed_move=false;
+$pl1_team="Player1";
+$pl2_team="Player2";
+
 $cards_in_hand=6;
 $dice_last_value=0;
 
 var $player_score=new Array(3);
 $player_score[1]=0;
 $player_score[2]=0;
+
 
 $stage1=true;
 $stage2=false; 
@@ -271,8 +275,13 @@ function stage2_rolling(){
 	$stage1=false;
 	$stage2=true;
 	$player1_turn=true;	
-	if ($player1_attack) {$('#dice').show();
-	} else { stage2_pl2_roll_attack();}
+	if ($player1_attack) {
+		$('#dice').show();
+		Toastify({text: $pl1_team + " , please press roll dice",duration: 3000}).showToast();
+
+	} else { 
+		stage2_pl2_roll_attack();
+	}
 
 
 }
@@ -288,12 +297,14 @@ function stage3_check_result(){
 
 //here we check if we have scored
 function stage2_pl2_roll_attack(){
+	Toastify({text: $pl2_team + " , is rolling dice",duration: 3000}).showToast();
 	console.log("====STAGE 2 & 3 -player2 rolls & attacks");
 	$player1_attack=true;
 	$dice_last_value=rollDiceLocal(3);
 	//console.log("dice_last_value="+$dice_last_value);
 	if($dice_last_value==3){
 		$stage3=true; 
+		Toastify({text: $pl2_team + " , is attacking",duration: 3000}).showToast();
 		console.log("PL2 dice rolled == ATTACK (3)");
 		//console.log("PL_slot("+i+"] CLICKED card="+card+"  -suit="+card.suit+" aaa pl2="+pl2_slot[i].topCard().suit+"  att_player="+att_player);
 		//console.log("pl1slot-COMPARE="+compare_cards(card,pl2_slot[i].topCard()));
@@ -317,6 +328,7 @@ function stage2_pl2_roll_attack(){
 
 	} // ATTACK enabled now select card
 	if($dice_last_value<3) {
+		Toastify({text: $pl2_team + " , rolled a "+$dice_last_value+" and he lost",duration: 3000}).showToast();
 		$stage1=true; console.log("PL2 dice rolled == 1,2 - Lost turn"); 
 		stage1_init_round() ;}
 
