@@ -37,7 +37,9 @@ h1 {
 }
 
 #card-table {
-  background-color: #00803F;
+  /*background-color: #00803F;
+  opacity: 0.4;*/
+  background: rgba(76, 175, 80, 0.5);
   height: -webkit-fill-available;
   width: -webkit-fill-available;
   border: solid 6px #3e0606;
