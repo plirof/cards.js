@@ -1,5 +1,6 @@
 
 body {
+  /*background-image: url("img_extra/soccer_stadium3d_small.jpg");*/
   position: relative;
   margin: 20px auto;
   font-family: Arial, sans-serif;
@@ -39,7 +40,11 @@ h1 {
 #card-table {
   /*background-color: #00803F;
   opacity: 0.4;*/
-  background: rgba(76, 175, 80, 0.5);
+  background-image: url("img_extra/soccer_stadium3d_small.jpg");
+  background-repeat: no-repeat;
+  background-position: center top;  
+  background-size: cover;
+  /*background: rgba(76, 175, 80, 0.5);*/
   height: -webkit-fill-available;
   width: -webkit-fill-available;
   border: solid 6px #3e0606;

@@ -219,19 +219,8 @@ function init_slots_click_events(){
 	for(var i=1;i<=3;i++) {
 		
 		pl1_slot[i].click(createCallback( i ,1 ));
-		/*
-	    pl1_slot[i].click(function(card){
-	        console.log("pl1_slot("+i+"] CLICKED card="+card+"  -suit="+card.suit+" aaa pl2="+pl2_slot[i].topCard().suit);
-	        console.log("pl1slot-COMPARE="+compare_cards(card,pl2_slot[i]));
-	    });
-	    */
 	    // Following is considered cheating :)
-	    pl2_slot[i].click(createCallback( i ,2 ));
-	    /*
-	    pl2_slot[i].click(function(card){
-	        console.log("pl2_slot("+i+"] CLICKED card="+card+"  -suit="+card.suit);
-	    });	    
-	    */
+	    // pl2_slot[i].click(createCallback( i ,2 ));  //DISABLE this . THis should be used for 2 player game
 	}
 }
 
