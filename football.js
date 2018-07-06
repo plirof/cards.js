@@ -34,6 +34,23 @@ $.notify.defaults({
 })
 
 
+$.notify.addStyle('goal', {
+    html: "<div class='clearfix' >" + "<h2>GOAL!!!!!</h2> <BR><img src='img_extra/soccer_goal_breaking_through_the_net_312640.jpg' class='pull-left gap-right' style='float:center' >",
+    classes: {
+        superblue: {
+            "color": "#3A87AD",
+            "background-color": "#D9EDF7",
+            "border": "6px solid blue",
+            "border-color": "red",
+            "white-space": "nowrap"
+            /* "background-repeat": "no-repeat",
+            "background-position": "left top",
+            "background-size": "25px",
+            "background-image": "url('edda.png')"  */
+        }
+    }
+});
+
 $clicked_cards=1;
 $clicked_cards_pl2=1;
 $player1_turn=true;
@@ -240,10 +257,21 @@ function createCallback( i , att_player){
 		discardPile.render();
 		if(scored) {
 			$player_score[att_player]++;
-			alert (" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
+			//alert (" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
+			
+			$.notify("TEST DICE DEBUG Alert!", {
+			  autoHideDelay: 3000,
+			  text: '262 --- GOAL!!!!!',
+			  style: 'goal',
+			  // left, center, right
+			  align: "center",
+			  // top, middle, bottom
+			  verticalAlign: "middle"
+			});
+			$.notify(" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2], "success");
 		}
 		//console.log("createCallback AFTER  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
-		console.log("createCallback   att_player="+att_player+" score="+scored);
+		//console.log("createCallback   att_player="+att_player+" score="+scored);
 		$player1_attack=false;
 		stage1_init_round();
 	}
@@ -297,7 +325,7 @@ function enemy_turn(){
 
 //here we roll the dice
 function stage2_rolling(){
-	console.log("====STAGE 2_rolling()");
+	//console.log("====STAGE 2_rolling()");
 	$stage1=false;
 	$stage2=true;
 	$player1_turn=true;	
@@ -315,7 +343,7 @@ function stage2_rolling(){
 
 //here we check if we have scored
 function stage3_check_result(){
-	console.log("====STAGE 3");
+	//console.log("====STAGE 3");
 	$('#dice').hide();
 	$stage1=false;
 	$stage2=false;	
@@ -326,14 +354,14 @@ function stage3_check_result(){
 function stage2_pl2_roll_attack(){
 	//new Noty({text: $pl2_team + " , is rolling dice",duration: 3000}).show();
 	$.notify($pl2_team + " , is rolling dice", "info");
-	console.log("====STAGE 2 & 3 -player2 rolls & attacks");
+	//console.log("====STAGE 2 & 3 -player2 rolls & attacks");
 	$player1_attack=true;
 	$dice_last_value=rollDiceLocal(3);
 	//console.log("dice_last_value="+$dice_last_value);
 	if($dice_last_value==3){
 		$stage3=true; 
 		$.notify($pl2_team + " , is attacking", "info");
-		console.log("PL2 dice rolled == ATTACK (3)");
+		//console.log("PL2 dice rolled == ATTACK (3)");
 		//console.log("PL_slot("+i+"] CLICKED card="+card+"  -suit="+card.suit+" aaa pl2="+pl2_slot[i].topCard().suit+"  att_player="+att_player);
 		//console.log("pl1slot-COMPARE="+compare_cards(card,pl2_slot[i].topCard()));
 		$random_slot=rollDiceLocal(3);
@@ -348,14 +376,23 @@ function stage2_pl2_roll_attack(){
 			//new Noty({text: "GOAL!!!! "+$pl2_team + " scored",duration: 3000}).show();
 			//new Noty({text: "Score is  "+$pl1_team+"-"+$pl2_team + " : "+$player_score[1]+"-"+$player_score[2],duration: 3000}).show();
 			$.notify("GOAL!!!! "+$pl2_team + " scored", "success");
+			$.notify("Alert!", {
+			  style: 'goal',
+			  // left, center, right
+			  align: "center",
+			  // top, middle, bottom
+			  verticalAlign: "middle"
+			});
+			/*
 			$.notify({
 				  title: h5,
-				  button: 'GOAL!!!! '+$pl2_team + " scored",
+				  text: 'GOAL!!!! '+$pl2_team + " scored",
 				}, { 
-				  style: 'foo',
+				  style: 'goal',
 				  autoHide: false,
 				  clickToHide: false
 				});
+			*/
 			$.notify("Score is  "+$pl1_team+"-"+$pl2_team + " : "+$player_score[1]+"-"+$player_score[2], "info");
 
 
@@ -370,8 +407,9 @@ function stage2_pl2_roll_attack(){
 
 	} // ATTACK enabled now select card
 	if($dice_last_value<3) {
-		$.notify($pl2_team + " , rolled a "+$dice_last_value+" and he lost", "warning");
-		$stage1=true; console.log("PL2 dice rolled == 1,2 - Lost turn"); 
+		$.notify($pl2_team + " , rolled a "+$dice_last_value+" and he lost", "error");
+		$stage1=true; 
+		//console.log("PL2 dice rolled == 1,2 - Lost turn"); 
 		stage1_init_round() ;}
 
 	//$('#dice').hide();
@@ -411,11 +449,11 @@ function rollDiceLocal($size){ // 1 - $size dice
 
 function compare_cards($card_att,$card_def=null){ // 1 - $size dice
 	var goal=false;
-	console.log("compare_cards ATT_suit="+$card_att.suit+" DEF_suit="+$card_def.suit)
+	//console.log("compare_cards ATT_suit="+$card_att.suit+" DEF_suit="+$card_def.suit)
 	if ($card_att.suit==$card_def.suit) goal=true;
 	// extra rules :
 	if($card_def.rank==12 /*Q= BAD player*/) 	{goal=true; console.log("Looser player!!! ");}
-	if($card_att.rank==11 /*J= star attacker*/) {goal=true;console.log("Star playerr!!! ");}
+	if($card_att.rank==11 /*J= star attacker*/) {goal=true; console.log("Star playerr!!! ");}
 	if($card_def.rank==13 /*K= goalkeeper*/) 	{goal=false;console.log("Goalkeeper!!! ");}
 	return goal;
 }
