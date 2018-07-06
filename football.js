@@ -146,8 +146,15 @@ $('#dice').click(function() {
 	$stage2=false;
 	//new Noty({text: $pl1_team + " rolled a "+$dice_last_value+". Please Select attacking player!!! ",duration: 3000}).show();
 	$.notify($pl1_team + " rolled a "+$dice_last_value+". Please Select attacking player!!! ", "info");
-	if($dice_last_value==3){$stage3=true; console.log("dice rolled == ATTACK (3)");} // ATTACK enabled now select card
-	if($dice_last_value<3) {$stage1=true; console.log("dice rolled == 1,2 - Lost turn"); $player1_attack=false;stage1_init_round() ;}
+	if($dice_last_value==3){
+		$stage3=true; /*console.log("dice rolled == ATTACK (3)"); */
+	} // ATTACK enabled now select card
+	if($dice_last_value<3) {	
+		$stage1=true; 
+		/*console.log("dice rolled == 1,2 - Lost turn");*/ 
+		$player1_attack=false;
+		stage1_init_round() ;
+	}
 });
 
 //When you click on the top card of a deck, a card is added
