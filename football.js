@@ -35,7 +35,7 @@ $.notify.defaults({
 
 
 $.notify.addStyle('goal', {
-    html: "<div class='clearfix' >" + "<h2>GOAL!!!!!</h2> <BR><img src='img_extra/soccer_goal_breaking_through_the_net_312640.jpg' class='pull-left gap-right' style='float:center' >",
+    html: "<div class='clearfix' >" + "<h2>GOAL!!!!!</h2> <BR><img width=50% src='img_extra/soccer_goal_breaking_through_the_net_312640.jpg' class='pull-left gap-right' style='float:center' >",
     classes: {
         superblue: {
             "color": "#3A87AD",
@@ -49,6 +49,26 @@ $.notify.addStyle('goal', {
             "background-image": "url('edda.png')"  */
         }
     }
+});
+
+$.notify.addStyle('lostball', {
+    //html: "<div class='clearfix' >" + 'Lost ball <BR><img width=50% src="img_extra/lost-ball_Soccer-Icons-excerpt-opt.jpg" class="pull-left gap-right" style="opacity:0.8;float:center" >',
+    //html: "<div>☺<span data-notify-text/>☺</div>",
+    html: "<div></div>",
+    classes: {
+        superblue: {
+            "color": "#3A87AD",
+            "background-color": "#D9EDF7",
+            "border": "6px solid blue",
+            "border-color": "red",
+            "white-space": "nowrap",
+             "background-repeat": "no-repeat",
+           /* "background-position": "left top",
+            "background-size": "25px",*/
+            "background-image": "url('img_extra/lost-ball_Soccer-Icons-excerpt-opt.jpg')"
+        }
+    }
+
 });
 
 $clicked_cards=1;
@@ -265,7 +285,7 @@ function createCallback( i , att_player){
 		if(scored) {
 			$player_score[att_player]++;
 			//alert (" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
-			
+			/*
 			$.notify("TEST DICE DEBUG Alert!", {
 			  autoHideDelay: 3000,
 			  text: '262 --- GOAL!!!!!',
@@ -275,7 +295,14 @@ function createCallback( i , att_player){
 			  // top, middle, bottom
 			  verticalAlign: "middle"
 			});
-			$.notify(" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2], "success");
+			*/
+			$.notify(" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2], {
+			  style: 'goal',
+			  // left, center, right
+			  align: "center",
+			  // top, middle, bottom
+			  verticalAlign: "bottom"
+			});
 		}
 		//console.log("createCallback AFTER  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
 		//console.log("createCallback   att_player="+att_player+" score="+scored);
@@ -389,7 +416,7 @@ function stage2_pl2_roll_attack(){
 			  // left, center, right
 			  align: "center",
 			  // top, middle, bottom
-			  verticalAlign: "middle"
+			  verticalAlign: "bottom"
 			});
 			/*
 			$.notify("Alert!", {
@@ -424,7 +451,16 @@ function stage2_pl2_roll_attack(){
 
 	} // ATTACK enabled now select card
 	if($dice_last_value<3) {
-		$.notify($pl2_team + " , rolled a "+$dice_last_value+" and he lost", "error");
+		$('#card-table').notify($pl2_team + " , rolled a "+$dice_last_value+" and he lost", 
+			{
+			  style: 'lostball',
+  			  className: 'superblue',
+			  // left, center, right
+			  align: "center",
+			  // top, middle, bottom
+			  verticalAlign: "bottom"
+			});
+
 		$stage1=true; 
 		//console.log("PL2 dice rolled == 1,2 - Lost turn"); 
 		stage1_init_round() ;}
