@@ -1,6 +1,20 @@
 cards.js
 ========
 
+
+#### Notify libs to check :
+ - http://codeseven.github.io/toastr/demo.html  , https://github.com/CodeSeven/toastr  , 
+ - https://ned.im/noty/v2/  <script type="text/javascript" src="js/noty/packaged/jquery.noty.packaged.min.js"></script>
+ -
+ -
+ -
+
+#### Icons to check :
+ - https://all-free-download.com/free-vector/download/soccer_field_311115_download.html
+ -
+
+
+
 Javascript library for card games.
 
 I have created a lot of javascript card games. As of 12.05.2012 I've made

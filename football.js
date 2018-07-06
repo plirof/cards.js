@@ -1,4 +1,39 @@
 
+$.notify.defaults({
+	 
+  // whether to hide the notification on click
+  clickToHide: true,
+  // whether to auto-hide the notification
+  autoHide: true,
+  // if autoHide, hide after milliseconds
+  autoHideDelay: 5000,
+  // show the arrow pointing at the element
+  arrowShow: true,
+  // arrow size in pixels
+  arrowSize: 5,
+  // position defines the notification position though uses the defaults below
+  //position: '...',
+  position: 'top center',
+  // default positions
+  elementPosition: 'top center',
+  globalPosition: 'top center',
+  // default style
+  style: 'bootstrap',
+  // default class (string or [string])
+  className: 'error',
+  // show animation
+  showAnimation: 'slideDown',
+  // show animation duration
+  showDuration: 400,
+  // hide animation
+  hideAnimation: 'slideUp',
+  // hide animation duration
+  hideDuration: 200,
+  // padding between element and notification
+  gap: 2	 
+})
+
+
 $clicked_cards=1;
 $clicked_cards_pl2=1;
 $player1_turn=true;
@@ -92,7 +127,8 @@ $('#dice').click(function() {
 	$dice_last_value=rollDiceLocal(3);
 	//console.log("dice_last_value="+$dice_last_value);
 	$stage2=false;
-	Toastify({text: $pl1_team + " rolled a "+$dice_last_value+". Please Select attacking player!!! ",duration: 3000}).showToast();
+	//new Noty({text: $pl1_team + " rolled a "+$dice_last_value+". Please Select attacking player!!! ",duration: 3000}).show();
+	$.notify($pl1_team + " rolled a "+$dice_last_value+". Please Select attacking player!!! ", "info");
 	if($dice_last_value==3){$stage3=true; console.log("dice rolled == ATTACK (3)");} // ATTACK enabled now select card
 	if($dice_last_value<3) {$stage1=true; console.log("dice rolled == 1,2 - Lost turn"); $player1_attack=false;stage1_init_round() ;}
 });
@@ -278,7 +314,8 @@ function stage2_rolling(){
 	$player1_turn=true;	
 	if ($player1_attack) {
 		$('#dice').show();
-		Toastify({text: $pl1_team + " , please press roll dice",duration: 3000}).showToast();
+		//new Noty({text: $pl1_team + " , please press roll dice",duration: 3000}).show();
+		$.notify($pl1_team + " , please press roll dice", "info");
 
 	} else { 
 		stage2_pl2_roll_attack();
@@ -298,14 +335,15 @@ function stage3_check_result(){
 
 //here we check if we have scored
 function stage2_pl2_roll_attack(){
-	Toastify({text: $pl2_team + " , is rolling dice",duration: 3000}).showToast();
+	//new Noty({text: $pl2_team + " , is rolling dice",duration: 3000}).show();
+	$.notify($pl2_team + " , is rolling dice", "info");
 	console.log("====STAGE 2 & 3 -player2 rolls & attacks");
 	$player1_attack=true;
 	$dice_last_value=rollDiceLocal(3);
 	//console.log("dice_last_value="+$dice_last_value);
 	if($dice_last_value==3){
 		$stage3=true; 
-		Toastify({text: $pl2_team + " , is attacking",duration: 3000}).showToast();
+		$.notify($pl2_team + " , is attacking", "info");
 		console.log("PL2 dice rolled == ATTACK (3)");
 		//console.log("PL_slot("+i+"] CLICKED card="+card+"  -suit="+card.suit+" aaa pl2="+pl2_slot[i].topCard().suit+"  att_player="+att_player);
 		//console.log("pl1slot-COMPARE="+compare_cards(card,pl2_slot[i].topCard()));
@@ -318,8 +356,20 @@ function stage2_pl2_roll_attack(){
 		discardPile.render();
 		if(scored) {
 			$player_score[2]++;
-			Toastify({text: "GOAL!!!! "+$pl2_team + " scored",duration: 3000}).showToast();
-			Toastify({text: "Score is  "+$pl1_team+"-"+$pl2_team + " : "+$player_score[1]+"-"+$player_score[2],duration: 3000}).showToast();
+			//new Noty({text: "GOAL!!!! "+$pl2_team + " scored",duration: 3000}).show();
+			//new Noty({text: "Score is  "+$pl1_team+"-"+$pl2_team + " : "+$player_score[1]+"-"+$player_score[2],duration: 3000}).show();
+			$.notify("GOAL!!!! "+$pl2_team + " scored", "success");
+			$.notify({
+				  title: h5,
+				  button: 'GOAL!!!! '+$pl2_team + " scored",
+				}, { 
+				  style: 'foo',
+				  autoHide: false,
+				  clickToHide: false
+				});
+			$.notify("Score is  "+$pl1_team+"-"+$pl2_team + " : "+$player_score[1]+"-"+$player_score[2], "info");
+
+
 			alert (" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
 			console.log(" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
 		}
@@ -331,7 +381,7 @@ function stage2_pl2_roll_attack(){
 
 	} // ATTACK enabled now select card
 	if($dice_last_value<3) {
-		Toastify({text: $pl2_team + " , rolled a "+$dice_last_value+" and he lost",duration: 3000}).showToast();
+		$.notify($pl2_team + " , rolled a "+$dice_last_value+" and he lost", "warning");
 		$stage1=true; console.log("PL2 dice rolled == 1,2 - Lost turn"); 
 		stage1_init_round() ;}
 
