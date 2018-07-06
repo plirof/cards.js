@@ -165,7 +165,10 @@ $('#dice').click(function() {
 	//console.log("dice_last_value="+$dice_last_value);
 	$stage2=false;
 	//new Noty({text: $pl1_team + " rolled a "+$dice_last_value+". Please Select attacking player!!! ",duration: 3000}).show();
-	$.notify($pl1_team + " rolled a "+$dice_last_value+". Please Select attacking player!!! ", "info");
+	$("#card-table").notify($pl1_team + " rolled a "+$dice_last_value+". Please Select attacking player!!! ",{
+	    	clickToHide: true,
+	    	autoHide: false	,
+		});
 	if($dice_last_value==3){
 		$stage3=true; /*console.log("dice rolled == ATTACK (3)"); */
 	} // ATTACK enabled now select card
@@ -381,7 +384,10 @@ function stage2_rolling(){
 	if ($player1_attack) {
 		$('#dice').show();
 		//new Noty({text: $pl1_team + " , please press roll dice",duration: 3000}).show();
-		$.notify($pl1_team + " , please press roll dice", "info");
+		$("#card-table").notify($pl1_team + " , please press roll dice", {
+	    	clickToHide: true,
+	    	autoHide: false	,
+		});
 
 
 	} else { 
