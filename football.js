@@ -296,6 +296,7 @@ function createCallback( i , att_player){
 			  verticalAlign: "middle"
 			});
 			*/
+
 			$.notify(" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2], {
 			  style: 'goal',		  
 			  // left, center, right
@@ -327,14 +328,15 @@ pl1_slot[1].click(function(card){
 //Good luck :)
 
 function update_score_display(){
-	$('#card-table').notify("Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2], {
-	    clickToHide: false,
+	//$('#card-table').notify("Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2], {
+	$.notify("Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2], {
+	    clickToHide: true,
 	    autoHide: false	,
 	    position: 'top left',		  
 		// left, center, right
-		align: "left",
+		align: "right",
 		// top, middle, bottom
-		verticalAlign: "top"
+		verticalAlign: "bottom"
 		});	
 }
 
