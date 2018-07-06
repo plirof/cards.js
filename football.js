@@ -1,16 +1,72 @@
 
+$.notify.defaults({
+	 
+  // whether to hide the notification on click
+  clickToHide: true,
+  // whether to auto-hide the notification
+  autoHide: true,
+  // if autoHide, hide after milliseconds
+  autoHideDelay: 5000,
+  // show the arrow pointing at the element
+  arrowShow: true,
+  // arrow size in pixels
+  arrowSize: 5,
+  // position defines the notification position though uses the defaults below
+  //position: '...',
+  position: 'top center',
+  // default positions
+  elementPosition: 'top center',
+  globalPosition: 'top center',
+  // default style
+  style: 'bootstrap',
+  // default class (string or [string])
+  className: 'error',
+  // show animation
+  showAnimation: 'slideDown',
+  // show animation duration
+  showDuration: 400,
+  // hide animation
+  hideAnimation: 'slideUp',
+  // hide animation duration
+  hideDuration: 200,
+  // padding between element and notification
+  gap: 2	 
+})
+
+
+$.notify.addStyle('goal', {
+    html: "<div class='clearfix' >" + "<h2>GOAL!!!!!</h2> <BR><img src='img_extra/soccer_goal_breaking_through_the_net_312640.jpg' class='pull-left gap-right' style='float:center' >",
+    classes: {
+        superblue: {
+            "color": "#3A87AD",
+            "background-color": "#D9EDF7",
+            "border": "6px solid blue",
+            "border-color": "red",
+            "white-space": "nowrap"
+            /* "background-repeat": "no-repeat",
+            "background-position": "left top",
+            "background-size": "25px",
+            "background-image": "url('edda.png')"  */
+        }
+    }
+});
+
 $clicked_cards=1;
 $clicked_cards_pl2=1;
 $player1_turn=true;
 $player1_attack=true; //if false pl2 attacks Stage2
 $player1_completed_move=false;
 $player2_completed_move=false;
+$pl1_team="Player1";
+$pl2_team="Player2";
+
 $cards_in_hand=6;
 $dice_last_value=0;
 
 var $player_score=new Array(3);
 $player_score[1]=0;
 $player_score[2]=0;
+
 
 $stage1=true;
 $stage2=false; 
@@ -88,8 +144,17 @@ $('#dice').click(function() {
 	$dice_last_value=rollDiceLocal(3);
 	//console.log("dice_last_value="+$dice_last_value);
 	$stage2=false;
-	if($dice_last_value==3){$stage3=true; console.log("dice rolled == ATTACK (3)");} // ATTACK enabled now select card
-	if($dice_last_value<3) {$stage1=true; console.log("dice rolled == 1,2 - Lost turn"); $player1_attack=false;stage1_init_round() ;}
+	//new Noty({text: $pl1_team + " rolled a "+$dice_last_value+". Please Select attacking player!!! ",duration: 3000}).show();
+	$.notify($pl1_team + " rolled a "+$dice_last_value+". Please Select attacking player!!! ", "info");
+	if($dice_last_value==3){
+		$stage3=true; /*console.log("dice rolled == ATTACK (3)"); */
+	} // ATTACK enabled now select card
+	if($dice_last_value<3) {	
+		$stage1=true; 
+		/*console.log("dice rolled == 1,2 - Lost turn");*/ 
+		$player1_attack=false;
+		stage1_init_round() ;
+	}
 });
 
 //When you click on the top card of a deck, a card is added
@@ -178,19 +243,8 @@ function init_slots_click_events(){
 	for(var i=1;i<=3;i++) {
 		
 		pl1_slot[i].click(createCallback( i ,1 ));
-		/*
-	    pl1_slot[i].click(function(card){
-	        console.log("pl1_slot("+i+"] CLICKED card="+card+"  -suit="+card.suit+" aaa pl2="+pl2_slot[i].topCard().suit);
-	        console.log("pl1slot-COMPARE="+compare_cards(card,pl2_slot[i]));
-	    });
-	    */
 	    // Following is considered cheating :)
-	    pl2_slot[i].click(createCallback( i ,2 ));
-	    /*
-	    pl2_slot[i].click(function(card){
-	        console.log("pl2_slot("+i+"] CLICKED card="+card+"  -suit="+card.suit);
-	    });	    
-	    */
+	    // pl2_slot[i].click(createCallback( i ,2 ));  //DISABLE this . THis should be used for 2 player game
 	}
 }
 
@@ -210,10 +264,21 @@ function createCallback( i , att_player){
 		discardPile.render();
 		if(scored) {
 			$player_score[att_player]++;
-			alert (" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
+			//alert (" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
+			
+			$.notify("TEST DICE DEBUG Alert!", {
+			  autoHideDelay: 3000,
+			  text: '262 --- GOAL!!!!!',
+			  style: 'goal',
+			  // left, center, right
+			  align: "center",
+			  // top, middle, bottom
+			  verticalAlign: "middle"
+			});
+			$.notify(" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2], "success");
 		}
 		//console.log("createCallback AFTER  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
-		console.log("createCallback   att_player="+att_player+" score="+scored);
+		//console.log("createCallback   att_player="+att_player+" score="+scored);
 		$player1_attack=false;
 		stage1_init_round();
 	}
@@ -267,19 +332,25 @@ function enemy_turn(){
 
 //here we roll the dice
 function stage2_rolling(){
-	console.log("====STAGE 2_rolling()");
+	//console.log("====STAGE 2_rolling()");
 	$stage1=false;
 	$stage2=true;
 	$player1_turn=true;	
-	if ($player1_attack) {$('#dice').show();
-	} else { stage2_pl2_roll_attack();}
+	if ($player1_attack) {
+		$('#dice').show();
+		//new Noty({text: $pl1_team + " , please press roll dice",duration: 3000}).show();
+		$.notify($pl1_team + " , please press roll dice", "info");
+
+	} else { 
+		stage2_pl2_roll_attack();
+	}
 
 
 }
 
 //here we check if we have scored
 function stage3_check_result(){
-	console.log("====STAGE 3");
+	//console.log("====STAGE 3");
 	$('#dice').hide();
 	$stage1=false;
 	$stage2=false;	
@@ -288,13 +359,16 @@ function stage3_check_result(){
 
 //here we check if we have scored
 function stage2_pl2_roll_attack(){
-	console.log("====STAGE 2 & 3 -player2 rolls & attacks");
+	//new Noty({text: $pl2_team + " , is rolling dice",duration: 3000}).show();
+	$.notify($pl2_team + " , is rolling dice", "info");
+	//console.log("====STAGE 2 & 3 -player2 rolls & attacks");
 	$player1_attack=true;
 	$dice_last_value=rollDiceLocal(3);
 	//console.log("dice_last_value="+$dice_last_value);
 	if($dice_last_value==3){
 		$stage3=true; 
-		console.log("PL2 dice rolled == ATTACK (3)");
+		$.notify($pl2_team + " , is attacking", "info");
+		//console.log("PL2 dice rolled == ATTACK (3)");
 		//console.log("PL_slot("+i+"] CLICKED card="+card+"  -suit="+card.suit+" aaa pl2="+pl2_slot[i].topCard().suit+"  att_player="+att_player);
 		//console.log("pl1slot-COMPARE="+compare_cards(card,pl2_slot[i].topCard()));
 		$random_slot=rollDiceLocal(3);
@@ -306,6 +380,29 @@ function stage2_pl2_roll_attack(){
 		discardPile.render();
 		if(scored) {
 			$player_score[2]++;
+			//new Noty({text: "GOAL!!!! "+$pl2_team + " scored",duration: 3000}).show();
+			//new Noty({text: "Score is  "+$pl1_team+"-"+$pl2_team + " : "+$player_score[1]+"-"+$player_score[2],duration: 3000}).show();
+			$.notify("GOAL!!!! "+$pl2_team + " scored", "success");
+			$.notify("Alert!", {
+			  style: 'goal',
+			  // left, center, right
+			  align: "center",
+			  // top, middle, bottom
+			  verticalAlign: "middle"
+			});
+			/*
+			$.notify({
+				  title: h5,
+				  text: 'GOAL!!!! '+$pl2_team + " scored",
+				}, { 
+				  style: 'goal',
+				  autoHide: false,
+				  clickToHide: false
+				});
+			*/
+			$.notify("Score is  "+$pl1_team+"-"+$pl2_team + " : "+$player_score[1]+"-"+$player_score[2], "info");
+
+
 			alert (" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
 			console.log(" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
 		}
@@ -317,7 +414,9 @@ function stage2_pl2_roll_attack(){
 
 	} // ATTACK enabled now select card
 	if($dice_last_value<3) {
-		$stage1=true; console.log("PL2 dice rolled == 1,2 - Lost turn"); 
+		$.notify($pl2_team + " , rolled a "+$dice_last_value+" and he lost", "error");
+		$stage1=true; 
+		//console.log("PL2 dice rolled == 1,2 - Lost turn"); 
 		stage1_init_round() ;}
 
 	//$('#dice').hide();
@@ -357,11 +456,11 @@ function rollDiceLocal($size){ // 1 - $size dice
 
 function compare_cards($card_att,$card_def=null){ // 1 - $size dice
 	var goal=false;
-	console.log("compare_cards ATT_suit="+$card_att.suit+" DEF_suit="+$card_def.suit)
+	//console.log("compare_cards ATT_suit="+$card_att.suit+" DEF_suit="+$card_def.suit)
 	if ($card_att.suit==$card_def.suit) goal=true;
 	// extra rules :
 	if($card_def.rank==12 /*Q= BAD player*/) 	{goal=true; console.log("Looser player!!! ");}
-	if($card_att.rank==11 /*J= star attacker*/) {goal=true;console.log("Star playerr!!! ");}
+	if($card_att.rank==11 /*J= star attacker*/) {goal=true; console.log("Star playerr!!! ");}
 	if($card_def.rank==13 /*K= goalkeeper*/) 	{goal=false;console.log("Goalkeeper!!! ");}
 	return goal;
 }
