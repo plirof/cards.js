@@ -297,12 +297,13 @@ function createCallback( i , att_player){
 			});
 			*/
 			$.notify(" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2], {
-			  style: 'goal',
+			  style: 'goal',		  
 			  // left, center, right
 			  align: "center",
 			  // top, middle, bottom
 			  verticalAlign: "bottom"
 			});
+			update_score_display();		
 		}
 		//console.log("createCallback AFTER  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
 		//console.log("createCallback   att_player="+att_player+" score="+scored);
@@ -324,6 +325,18 @@ pl1_slot[1].click(function(card){
 //So, that should give you some idea about how to render a card game.
 //Now you just need to write some logic around who can play when etc...
 //Good luck :)
+
+function update_score_display(){
+	$('#card-table').notify("Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2], {
+	    clickToHide: false,
+	    autoHide: false	,
+	    position: 'top left',		  
+		// left, center, right
+		align: "left",
+		// top, middle, bottom
+		verticalAlign: "top"
+		});	
+}
 
 function enemy_turn(){
 	//console.log("225 ENEMY TURN");
@@ -438,7 +451,7 @@ function stage2_pl2_roll_attack(){
 				});
 			*/
 			$.notify("Score is  "+$pl1_team+"-"+$pl2_team + " : "+$player_score[1]+"-"+$player_score[2], "info");
-
+			update_score_display();
 
 			//alert (" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
 			console.log(" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
