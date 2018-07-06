@@ -88,7 +88,7 @@ deck.addCards(cards.all);
 deck.render({immediate:true});
 
 //Now lets create a couple of hands, one face down, one face up.
-upperhand = new cards.Hand({faceUp:true, y:60});
+upperhand = new cards.Hand({faceUp:false, y:60});
 upperhand.x-=300;
 lowerhand = new cards.Hand({faceUp:true, y:340});
 lowerhand.x-=300;
@@ -341,6 +341,7 @@ function stage2_rolling(){
 		//new Noty({text: $pl1_team + " , please press roll dice",duration: 3000}).show();
 		$.notify($pl1_team + " , please press roll dice", "info");
 
+
 	} else { 
 		stage2_pl2_roll_attack();
 	}
@@ -383,6 +384,14 @@ function stage2_pl2_roll_attack(){
 			//new Noty({text: "GOAL!!!! "+$pl2_team + " scored",duration: 3000}).show();
 			//new Noty({text: "Score is  "+$pl1_team+"-"+$pl2_team + " : "+$player_score[1]+"-"+$player_score[2],duration: 3000}).show();
 			$.notify("GOAL!!!! "+$pl2_team + " scored", "success");
+			$("#card-table").notify("GOAL!!!! "+$pl2_team + " scored", {
+			  style: 'goal',
+			  // left, center, right
+			  align: "center",
+			  // top, middle, bottom
+			  verticalAlign: "middle"
+			});
+			/*
 			$.notify("Alert!", {
 			  style: 'goal',
 			  // left, center, right
@@ -390,6 +399,7 @@ function stage2_pl2_roll_attack(){
 			  // top, middle, bottom
 			  verticalAlign: "middle"
 			});
+			*/
 			/*
 			$.notify({
 				  title: h5,
@@ -403,7 +413,7 @@ function stage2_pl2_roll_attack(){
 			$.notify("Score is  "+$pl1_team+"-"+$pl2_team + " : "+$player_score[1]+"-"+$player_score[2], "info");
 
 
-			alert (" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
+			//alert (" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
 			console.log(" GOAAAL!!!!!!!   Score : Player 1-Player 2 : "+$player_score[1]+"-"+$player_score[2]);
 		}
 		//console.log("createCallback AFTER  isDeckEmpty "+pl1_slot[i].isDeckEmpty());
@@ -427,7 +437,7 @@ function stage2_pl2_roll_attack(){
 
 //here we start a new round
 function stage1_init_round(){
-	console.log("====STAGE 1");
+	//console.log("====STAGE 1");
 	if (deck.isDeckEmpty()){
 		alert ("END OF MATCH score : player1 Vs Player2 :"+$player_score[1]+"-"+$player_score[2]);
 		console.log("END OF MATCH score : player1 Vs Player2 :"+$player_score[1]+"-"+$player_score[2]);
