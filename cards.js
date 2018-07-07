@@ -7,7 +7,7 @@ var cards = (function() {
 		table : 'body',
 		cardback : 'red',
 		acesHigh : false,
-		cardsUrl : 'img/cards.png',
+		cardsUrl : 'img/cards_foosball.png',
 		blackJoker : false,
 		redJoker : false
 	};
