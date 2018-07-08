@@ -526,8 +526,12 @@ function compare_cards($card_att,$card_def=null){ // 1 - $size dice
 	//console.log("compare_cards ATT_suit="+$card_att.suit+" DEF_suit="+$card_def.suit)
 	if ($card_att.suit==$card_def.suit) goal=true;
 	// extra rules :
-	if($card_def.rank==12 /*Q= BAD player*/) 	{goal=true; console.log("Looser player!!! ");}
+	if($card_att.rank==12 /*Q= BAD player*/) 	{goal=false; console.log("Looser attacker!!! ");}
+	//if($card_att.rank==12 && $card_def.rank==12){goal=true;console.log("Looser ATT scores only to Looser DEF");}
 	if($card_att.rank==11 /*J= star attacker*/) {goal=true; console.log("Star playerr!!! ");}
-	if($card_def.rank==13 /*K= goalkeeper*/) 	{goal=false;console.log("Goalkeeper!!! ");}
+	if($card_att.rank==13 /*K= goalkeeper*/) 	{goal=false;console.log("Goalkeeper attacker (can't score) ");}
+	if($card_def.rank==13 /*K= goalkeeper*/) 	{goal=false;console.log("Goalkeeper!!! always saves goals -except to att goalkeeper");}
+	if($card_def.rank==12 /*Q= BAD player*/) 	{goal=true; console.log("Looser defender!!! ");}
+	if($card_att.rank==13 && $card_def.rank==13){goal=true;console.log("Goalkeeper ATT scores to goalkeeper DEF");}
 	return goal;
 }
