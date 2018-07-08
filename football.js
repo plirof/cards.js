@@ -165,14 +165,16 @@ $('#dice').click(function() {
 	//console.log("dice_last_value="+$dice_last_value);
 	$stage2=false;
 	//new Noty({text: $pl1_team + " rolled a "+$dice_last_value+". Please Select attacking player!!! ",duration: 3000}).show();
-	$("#card-table").notify($pl1_team + " rolled a "+$dice_last_value+". Please Select attacking player!!! ",{
+
+	if($dice_last_value==3){
+		$("#card-table").notify($pl1_team + " rolled a "+$dice_last_value+". Please Select attacking player!!! ",{
 	    	clickToHide: true,
 	    	autoHide: false	,
-		});
-	if($dice_last_value==3){
+		});		
 		$stage3=true; /*console.log("dice rolled == ATTACK (3)"); */
 	} // ATTACK enabled now select card
 	if($dice_last_value<3) {	
+		$("#card-table").notify($pl1_team + " lost the ball - rolled a "+$dice_last_value);				
 		$stage1=true; 
 		/*console.log("dice rolled == 1,2 - Lost turn");*/ 
 		$player1_attack=false;
