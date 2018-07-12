@@ -132,13 +132,13 @@ pl1_slot[3].x+=160;
 
 var pl2_slot=new Array(3);
 pl2_y=-100;
-pl2_slot[1] = new cards.Deck({faceUp:true});
+pl2_slot[1] = new cards.Deck({faceUp:false});
 pl2_slot[1].y+=pl2_y;
 pl2_slot[1].x+=0;
 pl2_slot[2] = new cards.Deck({faceUp:false});
 pl2_slot[2].y+=pl2_y;
 pl2_slot[2].x+=80;
-pl2_slot[3] = new cards.Deck({faceUp:true});
+pl2_slot[3] = new cards.Deck({faceUp:false});
 pl2_slot[3].y+=pl2_y;
 pl2_slot[3].x+=160;
 
